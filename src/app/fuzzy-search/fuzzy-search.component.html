@@ -2,6 +2,8 @@
     <h1>Fuzzy Search of Products</h1>
     <input type="text" [(ngModel)]="searchTerm"  placeholder="Search products...">
     <button (click)="onSearchTermChange()">search</button>
+    
+<mat-progress-spinner *ngIf="isloading" mode="indeterminate" ></mat-progress-spinner>
     <div class="product_container">
         <div class="product_element" *ngFor="let product of searchResults">
              {{product.Quantity}} of {{ product.ProductName }} 

@@ -9,13 +9,15 @@ import { AddProductsComponent } from './add-products/add-products.component';
 import { FilterListOfProductsComponent } from './filter-list-of-products/filter-list-of-products.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FuzzySearchComponent } from './fuzzy-search/fuzzy-search.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { RouterModule ,Routes} from '@angular/router';
 import { ListOfOrdersComponent } from './list-of-orders/list-of-orders.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AllProductsComponent } from './all-products/all-products.component';
+import { CartComponent } from './cart/cart.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const routes: Routes = [
   { path: 'list-of-products', component: ListOfProductsComponent },
@@ -30,12 +32,12 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-
-
   
   ],
   imports: [
+    MatProgressSpinnerModule,
     ListOfOrdersComponent,
+    CartComponent,
     HeaderComponent,
     FooterComponent,
     BrowserModule,
@@ -50,7 +52,9 @@ const routes: Routes = [
     FilterListOfProductsComponent,
     AllProductsComponent,
     FuzzySearchComponent],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent],
 
 })

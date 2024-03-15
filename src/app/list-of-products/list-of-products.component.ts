@@ -12,6 +12,9 @@ import {FormsModule} from '@angular/forms';
 import { ProductData } from '../product';
 import { CustomerData } from '../customer';
 import { OrderData } from '../order';
+import { CartService } from '../cart.service';
+import { CartComponent } from '../cart/cart.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 @Component({
   standalone: true,
   selector: 'app-list-of-products',
@@ -24,28 +27,40 @@ import { OrderData } from '../order';
     UpperCasePipe,
     JsonPipe,
     AsyncPipe,
-
+    CartComponent,
+    MatProgressSpinner
   ],
 })
 export class ListOfProductsComponent implements OnInit {
   readonly ROOT_URL = 'https://uiexercise.theproindia.com/api';
   products$: Observable<ProductData[]>= new Observable<ProductData[]>();; // Define products$ as an Observable
-  searchText:string="hello";
-  constructor(private http: HttpClient) { 
+  isloading:boolean=true;
+  constructor(private http: HttpClient,private cartService: CartService) { 
 
   }
   customers: CustomerData[] = [];
-  selectedCustomer: CustomerData | undefined;
+  selectedCustomer: CustomerData = {
+    CustomerId: "475d0498-8186-43ba-aa1b-08f216e60a87",
+    CustomerName: "ABC",
+    EmailID: "abc@gmail.com",
+    Mobile: "9959845375" };
   filteredProducts: ProductData[] = [];
   products: ProductData[] = [];
   selectedProduct: ProductData | undefined;
   maxQuantity: number = 1;
   quantity: number = 1;
+  cart: ProductData[] = [];
 
   ngOnInit() {
     this.getProducts();
-    this.loadCustomers();
-    this.loadProducts();
+    this.loadCart();
+
+  }
+  loadCart(){
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      this.cart = JSON.parse(savedCart);
+    }
   }
   isFormVisible: boolean = false;
 
@@ -56,49 +71,24 @@ export class ListOfProductsComponent implements OnInit {
     this.updateMaxQuantity();
 
   }
-
+  addToCart(product: ProductData): void {
+ 
+    this.cartService.addToCart({...product, Quantity: this.quantity},this.maxQuantity);
+    alert('added to cart')
+    window.location.reload();
+   }
   hideForm() {
     this.isFormVisible = false;
   }
-  confirmOrder(): void {
-    if (this.selectedCustomer && this.selectedProduct) {
-      const isConfirmed = confirm(`Are you sure you want to place this order?\nCustomer: ${this.selectedCustomer.CustomerName}\nProduct: ${this.selectedProduct.ProductName}\nQuantity: ${this.quantity}`);
-      if (isConfirmed) {
-      
-        const orderData = {
-          customerId: this.selectedCustomer.CustomerId,
-          productId: this.selectedProduct.ProductId,
-          quantity: this.quantity
-        };
-        console.log('Placing order:', orderData);
-        
-        this.http.post('https://uiexercise.theproindia.com/api/Order/AddOrder',orderData)
-        .subscribe((res)=>{
-          alert("placed");
-          console.log(res);
 
-        });
-      }
-    }
-  }
   getProducts() {
     this.products$ = this.http.get<ProductData[]>(this.ROOT_URL + '/Product/GetAllProduct');
-
+    this.isloading=false;
     
   }
-  loadCustomers() {
-    this.http.get<CustomerData[]>('https://uiexercise.theproindia.com/api/Customer/GetAllCustomer')
-      .subscribe(customers => {
-        this.customers = customers;
-      });
-  }
 
-  loadProducts() {
-    this.http.get<ProductData[]>('https://uiexercise.theproindia.com/api/Product/GetAllProduct')
-      .subscribe(products => {
-        this.products = products.filter(product => product.Quantity > 0 && product.IsActive);
-      });
-  }
+
+
   updateMaxQuantity() {
     if (this.selectedProduct) {
       this.maxQuantity = this.selectedProduct.Quantity;

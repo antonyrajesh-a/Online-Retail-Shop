@@ -3,6 +3,7 @@
     <h1>Search of products</h1>
 <input type="text" [(ngModel)]="searchText" placeholder="Enter Product name">
 
+<mat-progress-spinner *ngIf="isloading" mode="indeterminate" ></mat-progress-spinner>
 <button (click)="filterProducts()">Search</button>
 </div>
 <div class="product_container">

@@ -103,7 +103,19 @@ h1 {
   flex-basis: calc(50% - 20px); /* Adjusted to accommodate margin */
   margin-bottom: 10px;
 }
+.popup-form button:hover {
+  background-color: #02130d;
+  border: none;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
 
+  font-size: 16px;
+  flex-basis: calc(50% - 20px); /* Adjusted to accommodate margin */
+  margin-bottom: 10px;
+}
 .popup-form button {
   background-color: #04AA6D;
   border: none;
@@ -117,6 +129,8 @@ h1 {
   flex-basis: calc(50% - 20px); /* Adjusted to accommodate margin */
   margin-bottom: 10px;
 }
+
+
 
 .popup-form button:disabled {
   background-color: #ccc;

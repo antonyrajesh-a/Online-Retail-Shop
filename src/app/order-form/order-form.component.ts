@@ -71,7 +71,7 @@ export class OrderFormComponent {
         .subscribe((res)=>{
           alert("placed");
           console.log(res);
-          window.location.reload()
+          window.location.reload();
         });
       }
     }

@@ -8,6 +8,7 @@ import { FuzzySearchComponent } from '../fuzzy-search/fuzzy-search.component';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { ListOfOrdersComponent } from '../list-of-orders/list-of-orders.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
+import { CartComponent } from '../cart/cart.component';
 
 const routes: Routes = [
   { path: 'list-of-products', component: ListOfProductsComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'fuzzy-search-list-of-products', component: FuzzySearchComponent },
   { path: 'order-form', component:OrderFormComponent},
   {path:'list-of-orders',component:ListOfOrdersComponent},
-  {path:'all-products',component:AllProductsComponent}
+  {path:'all-products',component:AllProductsComponent},
+  {path:'cart',component:CartComponent}
 
 ];
 @Component({

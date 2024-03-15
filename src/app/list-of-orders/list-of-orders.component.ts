@@ -43,7 +43,7 @@ export class ListOfOrdersComponent implements OnInit {
 
   getOrders() {
     this.orders$ = this.http.get<OrderData[]>(this.ROOT_URL + '/Order/GetAllOrder');
-    
+
     
 //https://uiexercise.theproindia.com/api/Customer/GetCustomerById?customerId=
 //https://uiexercise.theproindia.com/api/Product/GetProductById?productId=

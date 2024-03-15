@@ -11,6 +11,7 @@ import {
 
 import {FormsModule} from '@angular/forms';
 import { ProductData } from '../product';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   standalone:true,
@@ -24,7 +25,7 @@ import { ProductData } from '../product';
     UpperCasePipe,
     JsonPipe,
     AsyncPipe,
-
+MatProgressSpinner
   ],
 })
 export class FilterListOfProductsComponent implements OnInit {
@@ -32,6 +33,7 @@ export class FilterListOfProductsComponent implements OnInit {
   products: ProductData[] = [];
   filteredProducts: ProductData[] = [];
   searchText: string = '';
+  isloading:boolean=true;
 
   constructor(private http: HttpClient) {}
 
@@ -40,6 +42,7 @@ export class FilterListOfProductsComponent implements OnInit {
       .subscribe(data => {
         this.products = data;
         this.filteredProducts = [...this.products]; 
+        this.isloading=false;
       });
   }
 

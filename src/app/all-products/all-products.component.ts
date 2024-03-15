@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import {FormsModule} from '@angular/forms';
 import { ProductData } from '../product';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-all-products',
@@ -23,19 +24,16 @@ import { ProductData } from '../product';
     UpperCasePipe,
     JsonPipe,
     AsyncPipe,
-
+    MatProgressSpinner
   ],
 })
 
 
 
 
-
-
-
-
 export class AllProductsComponent implements OnInit {
   readonly ROOT_URL = 'https://uiexercise.theproindia.com/api';
+  isloading:boolean=true;
   products$: Observable<ProductData[]>= new Observable<ProductData[]>();; // Define products$ as an Observable
   searchText:string="hello";
   constructor(private http: HttpClient) { }
@@ -46,5 +44,6 @@ export class AllProductsComponent implements OnInit {
 
   getProducts() {
     this.products$ = this.http.get<ProductData[]>(this.ROOT_URL + '/Product/GetAllProduct');
+    this.isloading=false;
   }
 }
