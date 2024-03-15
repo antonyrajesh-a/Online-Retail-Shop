@@ -1,0 +1,41 @@
+
+<h1>Available List of Items</h1>
+
+
+
+<div class="product_container">
+  <div *ngFor="let product of products$| async " >
+<div class="product_element" *ngIf="product.Quantity>0">
+  {{product.Quantity}} of {{ product.ProductName | json}}<button (click)="showForm(product)"> + </button>
+</div>
+    
+ 
+  </div>
+</div>
+
+
+
+
+<div class="popup-form" *ngIf="isFormVisible" >
+  
+
+  <form (ngSubmit)="confirmOrder()">
+    <h2>Order </h2>
+    <div>
+      <label for="customer">Select Customer:</label>
+      <select id="customer" [(ngModel)]="selectedCustomer" name="customer" required>
+        <option *ngFor="let customer of customers" [ngValue]="customer">{{ customer.CustomerName }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" min="1" [max]="maxQuantity" required>
+      <span *ngIf="selectedProduct">Max: {{ maxQuantity }}</span>
+    </div>
+    <button type="submit" [disabled]="!selectedCustomer || !selectedProduct || quantity <= 0 || quantity > maxQuantity">Place Order</button>
+    <button (click)="hideForm()">Close</button>
+  </form>
+
+
+</div>

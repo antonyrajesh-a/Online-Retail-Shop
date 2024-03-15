@@ -1,0 +1,67 @@
+.product_container {
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+  }
+  
+  .product_container h2 {
+    text-align: center;
+  }
+  
+  .product_container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product_container form div {
+    margin-bottom: 10px;
+  }
+  
+  .product_container label {
+    display: block;
+    font-weight: bold;
+    
+  }
+  
+  .product_container select,
+  .product_container input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    flex-basis: calc(50% - 20px); /* Adjusted to accommodate margin */
+    margin-bottom: 10px;
+  }
+  
+  .product_container button {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    flex-basis: calc(50% - 20px); /* Adjusted to accommodate margin */
+    margin-bottom: 10px;
+  }
+  
+  .product_container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .product_container span {
+    font-size: 14px;
+  }
+  
+  *{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }

@@ -1,0 +1,12 @@
+<div style="text-align: center;">
+    <h1>Fuzzy Search of Products</h1>
+    <input type="text" [(ngModel)]="searchTerm"  placeholder="Search products...">
+    <button (click)="onSearchTermChange()">search</button>
+    <div class="product_container">
+        <div class="product_element" *ngFor="let product of searchResults">
+             {{product.Quantity}} of {{ product.ProductName }} 
+          </div>
+    </div>
+   
+  </div>
+  

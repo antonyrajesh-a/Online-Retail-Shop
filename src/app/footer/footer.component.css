@@ -1,0 +1,9 @@
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0; /* Adjust left or right if needed */
+    width: 100%; /* Width of the fixed div */
+    background-color: #ccc; /* Background color */
+    padding: 10px; /* Optional padding */
+    text-align: center; /* Optional alignment */
+}

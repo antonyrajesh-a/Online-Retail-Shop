@@ -1,0 +1,10 @@
+<!-- filter-list-of-products.component.html -->
+<div style="text-align: center;">
+    <h1>Search of products</h1>
+<input type="text" [(ngModel)]="searchText" placeholder="Enter Product name">
+
+<button (click)="filterProducts()">Search</button>
+</div>
+<div class="product_container">
+    <div *ngFor="let product of filteredProducts" class="product_element">{{product.Quantity}} of {{ product.ProductName }}  </div>
+  </div>

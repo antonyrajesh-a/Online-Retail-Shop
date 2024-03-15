@@ -1,0 +1,13 @@
+
+<h1>List of Items</h1>
+
+
+
+<div class="product_container">
+  <div *ngFor="let order of orders$ | async" class="product_element">
+    {{ order | json}}
+  </div>
+</div>
+
+
+

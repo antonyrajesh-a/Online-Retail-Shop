@@ -1,0 +1,24 @@
+<div class="product_container">
+    <h2>Place Order</h2>
+    <form (ngSubmit)="confirmOrder()">
+      <div>
+        <label for="customer">Select Customer:</label>
+        <select id="customer" [(ngModel)]="selectedCustomer" name="customer" required>
+          <option *ngFor="let customer of customers" [ngValue]="customer">{{ customer.CustomerName }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="product">Select Product:</label>
+        <select id="product" [(ngModel)]="selectedProduct" name="product" (change)="updateMaxQuantity()" required>
+          <option *ngFor="let product of products" [ngValue]="product">{{ product.ProductName }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" min="1" [max]="maxQuantity" required>
+        <span *ngIf="selectedProduct">Max: {{ maxQuantity }}</span>
+      </div>
+      <button type="submit" [disabled]="!selectedCustomer || !selectedProduct || quantity <= 0 || quantity > maxQuantity">Place Order</button>
+    </form>
+  </div>
+  
