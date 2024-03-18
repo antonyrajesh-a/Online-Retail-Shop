@@ -1,19 +1,31 @@
 <div class="container">
-<div class="form-area">
-    <form #productsForm="ngForm" (ngSubmit)="onProductCreate(productsForm.value)">
+    <div class="form-area">
+      <form #productsForm="ngForm" (ngSubmit)="onProductCreate(productsForm.value)" novalidate>
         <h1 style="text-align: center;">Add Product</h1>
         <label>Product Name</label>
-        <input type="text" name="ProductName" class="input" ngModel>
-<br>
-<br>
-        <label>Product Quantity</label>
-        <input type="number" name="Quantity" class="input" ngModel>
-<br>
-<br>
-        <div class="container"><input type="submit" value="AddProduct" class="submit"></div>
+        <input type="text" name="ProductName" class="input" ngModel required minlength="3" #productName="ngModel">
+        <div *ngIf="productName.errors && (productName.dirty || productName.touched)">
+          <div *ngIf="productName.errors['required']" style="color: red;">Product Name is required.</div>
+          
+        </div>
+  
+        <br>
+        <br>
         
-    </form>
-</div>
-
-
-</div>
+        <label>Product Quantity</label>
+        <input type="number" name="Quantity" class="input" ngModel required #quantity="ngModel">
+        <div *ngIf="quantity.errors && (quantity.dirty || quantity.touched)">
+          <div *ngIf="quantity.errors['required']" style="color: red;">Quantity is required.</div>
+        </div>
+  
+        <br>
+        <br>
+        
+        <div class="container"><input type="submit" value="Add Product" class="submit"></div>
+  
+        <p-toast position="bottom-right"></p-toast>
+  
+      </form>
+    </div>
+  </div>
+  

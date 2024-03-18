@@ -10,7 +10,7 @@
       <div>
         <label for="product">Select Product:</label>
         <select id="product" [(ngModel)]="selectedProduct" name="product" (change)="updateMaxQuantity()" required>
-          <option *ngFor="let product of products" [ngValue]="product">{{ product.ProductName }}</option>
+          <option *ngFor="let product of products " [ngValue]="product">{{ product.ProductName }}</option>
         </select>
       </div>
       <div>
@@ -21,4 +21,6 @@
       <button type="submit" [disabled]="!selectedCustomer || !selectedProduct || quantity <= 0 || quantity > maxQuantity">Place Order</button>
     </form>
   </div>
+
+  <p-toast position="bottom-right"></p-toast>
   

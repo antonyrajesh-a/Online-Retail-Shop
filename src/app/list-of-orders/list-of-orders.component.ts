@@ -9,12 +9,16 @@ import {
   JsonPipe,
   AsyncPipe,
 } from '@angular/common';
-import { Observable } from 'rxjs';
+
 import {FormsModule} from '@angular/forms';
 import { ProductData } from '../product';
 import { OrderData } from '../order';
 import { CustomerData } from '../customer';
-
+import { Observable, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FilterpipePipe } from '../filterpipe.pipe';
+import { FilterpipeOrderPipe } from '../filterpipe-order.pipe';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   standalone: true,
@@ -28,12 +32,16 @@ import { CustomerData } from '../customer';
     UpperCasePipe,
     JsonPipe,
     AsyncPipe,
-
+    FilterpipePipe,
+    FilterpipeOrderPipe,
+    MatProgressSpinner
   ],
 })
 export class ListOfOrdersComponent implements OnInit {
+  isloading=true;
   readonly ROOT_URL = 'https://uiexercise.theproindia.com/api';
-  orders$: Observable<OrderData[]>= new Observable<OrderData[]>();; // Define products$ as an Observable
+  orders: any;
+  searchText:string='';
 
   constructor(private http: HttpClient) { }
 
@@ -41,14 +49,19 @@ export class ListOfOrdersComponent implements OnInit {
     this.getOrders();
   }
 
-  getOrders() {
-    this.orders$ = this.http.get<OrderData[]>(this.ROOT_URL + '/Order/GetAllOrder');
+  getOrders(): void {
+    this.http.get<OrderData[]>(`${this.ROOT_URL}/Order/GetAllOrder`).subscribe((orders: OrderData[]) => {
+      this.isloading=false;
+      orders.forEach(order => {
+        this.http.get<CustomerData>(`${this.ROOT_URL}/Customer/GetCustomerById?customerId=${order.CustomerId}`).subscribe((customer: CustomerData) => {
+          order.CustomerName = customer.CustomerName;
+        });
 
-    
-//https://uiexercise.theproindia.com/api/Customer/GetCustomerById?customerId=
-//https://uiexercise.theproindia.com/api/Product/GetProductById?productId=
+        this.http.get<ProductData>(`${this.ROOT_URL}/Product/GetProductById?productId=${order.ProductId}`).subscribe((product: ProductData) => {
+          order.ProductName = product.ProductName;
+        });
+      });
+      this.orders = orders;
+    });
   }
-
-
-
 }

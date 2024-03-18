@@ -15,12 +15,16 @@ import { OrderData } from '../order';
 import { CartService } from '../cart.service';
 import { CartComponent } from '../cart/cart.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { FilterpipePipe } from '../filterpipe.pipe';
 @Component({
   standalone: true,
   selector: 'app-list-of-products',
   templateUrl: './list-of-products.component.html',
   styleUrl: './list-of-products.component.css',
   imports: [
+    FilterpipePipe,
     FormsModule,
     NgIf,
     NgFor,
@@ -28,16 +32,18 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     JsonPipe,
     AsyncPipe,
     CartComponent,
+    ToastModule,
     MatProgressSpinner
   ],
 })
 export class ListOfProductsComponent implements OnInit {
   readonly ROOT_URL = 'https://uiexercise.theproindia.com/api';
-  products$: Observable<ProductData[]>= new Observable<ProductData[]>();; // Define products$ as an Observable
+  products$: ProductData[]=[];; // Define products$ as an Observable
   isloading:boolean=true;
-  constructor(private http: HttpClient,private cartService: CartService) { 
+  constructor(private http: HttpClient,private cartService: CartService,private messageService:MessageService) { 
 
   }
+  searchText:string='';
   customers: CustomerData[] = [];
   selectedCustomer: CustomerData = {
     CustomerId: "475d0498-8186-43ba-aa1b-08f216e60a87",
@@ -63,6 +69,10 @@ export class ListOfProductsComponent implements OnInit {
     }
   }
   isFormVisible: boolean = false;
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({severity: severity, summary: summary, detail: detail});
+ 
+  }
 
   showForm(product:ProductData) {
     console.log(product);
@@ -71,18 +81,25 @@ export class ListOfProductsComponent implements OnInit {
     this.updateMaxQuantity();
 
   }
+  closeForm() {
+    this.selectedProduct = undefined; // or whatever logic you use to close the form
+  }
+  
   addToCart(product: ProductData): void {
  
     this.cartService.addToCart({...product, Quantity: this.quantity},this.maxQuantity);
-    alert('added to cart')
-    window.location.reload();
+    this.showToast('success', 'Success', 'Product Added to Cart');
+    
+    
    }
   hideForm() {
     this.isFormVisible = false;
   }
 
   getProducts() {
-    this.products$ = this.http.get<ProductData[]>(this.ROOT_URL + '/Product/GetAllProduct');
+    this.http.get<ProductData[]>(this.ROOT_URL + '/Product/GetAllProduct').subscribe((data) => {
+      this.products$ = data;
+    });
     this.isloading=false;
     
   }

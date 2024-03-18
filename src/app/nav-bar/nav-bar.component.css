@@ -21,7 +21,9 @@ h1 {
   }
   nav{
     text-align: center;
-    background-color: #5b6105;
+    background-color: #9faa04;
+     
+  
   }
   nav a.active {
     font-weight: bold; 
@@ -30,11 +32,13 @@ h1 {
   }
   nav a {
     background-color: #9faa04; /* Green */
+    display: inline-block;
+
     border: none;
     color: white;
     padding: 10px 22px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    
     font-size: 16px;
   }

@@ -15,9 +15,14 @@ import { RouterModule ,Routes} from '@angular/router';
 import { ListOfOrdersComponent } from './list-of-orders/list-of-orders.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { AllProductsComponent } from './all-products/all-products.component';
+
 import { CartComponent } from './cart/cart.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { FilterpipePipe } from './filterpipe.pipe';
+import { FilterpipeOrderPipe } from './filterpipe-order.pipe';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'list-of-products', component: ListOfProductsComponent },
@@ -26,15 +31,23 @@ const routes: Routes = [
   { path: 'fuzzy-search-list-of-products', component: FuzzySearchComponent },
   { path: 'order-form', component:OrderFormComponent},
   {path:'list-of-orders',component:ListOfOrdersComponent},
-  {path:'all-products',component:AllProductsComponent}
+  {path:'home',component:HomeComponent}
+
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+
+
+  
+  
   
   ],
   imports: [
+    FilterpipeOrderPipe,
+    HomeComponent,
+    FilterpipePipe,
     MatProgressSpinnerModule,
     ListOfOrdersComponent,
     CartComponent,
@@ -50,11 +63,14 @@ const routes: Routes = [
     AddProductsComponent,
     NavBarComponent,
     FilterListOfProductsComponent,
-    AllProductsComponent,
-    FuzzySearchComponent],
+
+    FuzzySearchComponent,
+  ToastModule],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    MessageService
   ],
+
   bootstrap: [AppComponent],
 
 })

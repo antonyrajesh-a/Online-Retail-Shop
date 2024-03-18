@@ -42,12 +42,14 @@ h1 {
     background-color: rgb(0, 105, 128);
     width: 200px;
     color: white;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 5%;
+    font-family:cursive;
     font-size:130%;
     border: 15px solid rgb(0, 105, 128);
     padding: 20px;
     margin: 20px;
     text-align: center;
+    box-shadow: 0px 3px 8px rgba(15, 1, 1, 0.861);
   }
   
   @media screen and (max-width: 768px) {

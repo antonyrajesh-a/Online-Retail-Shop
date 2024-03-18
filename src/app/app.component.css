@@ -1,35 +1,4 @@
-/* Application-wide Styles */
-h1 {
-  color: #080a03;
-
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 250%;
-  text-align: center;
-}
-* {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-}
-nav a:hover {
-  background-color: #454a04; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 22px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-nav{
-  text-align: center;
-  background-color: #5b6105;
-}
-nav a {
-  background-color: #9faa04; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 22px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+.grid-container {
+  display: grid;
+  row-gap: 5px;
 }

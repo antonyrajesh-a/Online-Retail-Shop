@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { ProductData } from '../product';
 import { NgIf } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-add-products',
@@ -13,7 +14,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   templateUrl: './add-products.component.html',
   styleUrls: ['./add-products.component.css'],
   imports: [
-    FormsModule,NgIf,MatProgressSpinner
+    FormsModule,NgIf,MatProgressSpinner,
+    ToastModule
   ],
 })
 export class AddProductsComponent {
@@ -21,17 +23,20 @@ export class AddProductsComponent {
 
   products$: Observable<ProductData[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private messageService: MessageService) {
     this.products$ = this.getProducts();
   }
 
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({severity: severity, summary: summary, detail: detail});
+  }
   validation(productData: { ProductName: string, Quantity: number }): boolean {
     if (!productData.ProductName || productData.ProductName.trim() === '') {
-      alert('Please enter a valid product name.');
+      this.showToast('error', 'Error', 'Product name is not specified');
       return false;
     }
     if (productData.Quantity <= 0 || isNaN(productData.Quantity)) {
-      alert('Please enter a valid quantity.');
+      this.showToast('error', 'Error', 'Quantity is not specified');
       return false;
     }
     return true;
@@ -45,7 +50,7 @@ export class AddProductsComponent {
     this.products$.subscribe(products => {
       const isProductExist = products.some(product => product.ProductName === productData.ProductName);
       if (isProductExist) {
-        alert('Product already exists in the list.');
+        this.showToast('error', 'Error', 'Product Already Exists');
       } else {
         const newProductData: ProductData = {
           ...productData,
@@ -54,10 +59,20 @@ export class AddProductsComponent {
         };
 
         this.http.post('https://uiexercise.theproindia.com/api/Product/AddProduct', newProductData)
-          .subscribe((res) => {
+        .subscribe(
+          (res) => {
             console.log(res);
-            alert('Product Added');
-          });
+            this.showToast('success', 'Success', 'Product added');
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          (error) => {
+            console.error(error);
+            this.showToast('error', 'Error', 'Failed to add product');
+          }
+        );
+      
       }
     });
   }

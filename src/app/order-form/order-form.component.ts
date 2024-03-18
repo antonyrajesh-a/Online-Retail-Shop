@@ -1,16 +1,22 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { CustomerData } from '../customer';
 import { ProductData } from '../product';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+import { FilterpipePipe } from '../filterpipe.pipe';
+
 @Component({
   selector: 'app-order-form',
   standalone:true,
-  imports:[NgFor,NgIf,FormsModule],
+  imports:[NgFor,NgIf,FormsModule,ToastModule],
+  
   templateUrl: './order-form.component.html',
-  styleUrls: ['./order-form.component.css']
+  styleUrls: ['./order-form.component.css'],
+ 
 })
 export class OrderFormComponent {
   customers: CustomerData[] = [];
@@ -23,7 +29,7 @@ export class OrderFormComponent {
 
   constructor(
     private http: HttpClient,
-  
+    private messageService: MessageService
   ) {
     this.loadCustomers();
     this.loadProducts();
@@ -53,7 +59,11 @@ export class OrderFormComponent {
   }
 
   
-  
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({severity: severity, summary: summary, detail: detail});
+ 
+  }
+
 
   confirmOrder(): void {
     if (this.selectedCustomer && this.selectedProduct) {
@@ -69,9 +79,16 @@ export class OrderFormComponent {
         
         this.http.post('https://uiexercise.theproindia.com/api/Order/AddOrder',orderData)
         .subscribe((res)=>{
-          alert("placed");
+          this.showToast('success', 'Success', 'Order Placed');
           console.log(res);
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          
+        },
+        (error) => {
+          console.error(error);
+          this.showToast('error', 'Error', 'Order not Placed due to issues');
         });
       }
     }

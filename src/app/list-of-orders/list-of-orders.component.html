@@ -1,11 +1,15 @@
 
-<h1>List of Items</h1>
+<h1>List of Orders</h1>
 
-
-
+<div style="text-align: center;"><input type="text" [(ngModel)]="searchText" placeholder="Enter Customer name">
+</div>
+<mat-progress-spinner *ngIf="isloading" mode="indeterminate" ></mat-progress-spinner>
 <div class="product_container">
-  <div *ngFor="let order of orders$ | async" class="product_element">
-    {{ order | json}}
+  <div *ngFor="let order of orders |filterpipeorder:searchText" class="product_element">
+    Customer Name: {{ order.CustomerName |json}}<br><br>
+    Product Name: {{ order.ProductName |json}}<br><br>
+    Quantity: {{ order.Quantity |json}}<br><br>
+
   </div>
 </div>
 

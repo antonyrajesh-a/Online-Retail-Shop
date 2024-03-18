@@ -1,0 +1,11 @@
+<h1>Welcome to Online Retail Shop</h1>
+<div class="carousel-demo">
+    <p-carousel [value]="images" [numVisible]="2" [numScroll]="1" [autoplayInterval]="2000" [circular]="true">
+
+      <ng-template let-image pTemplate="content">
+        <img [src]="image.content" style="display:block;width:79%">
+      </ng-template>
+   
+    </p-carousel>
+</div>
+  

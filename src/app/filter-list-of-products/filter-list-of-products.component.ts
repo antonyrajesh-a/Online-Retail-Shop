@@ -12,6 +12,8 @@ import {
 import {FormsModule} from '@angular/forms';
 import { ProductData } from '../product';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { filter } from 'rxjs';
+import { FilterpipePipe } from '../filterpipe.pipe';
 
 @Component({
   standalone:true,
@@ -19,6 +21,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   templateUrl: './filter-list-of-products.component.html',
   styleUrl: './filter-list-of-products.component.css',
   imports: [
+    FilterpipePipe,
     FormsModule,
     NgIf,
     NgFor,
@@ -46,22 +49,6 @@ export class FilterListOfProductsComponent implements OnInit {
       });
   }
 
-  filterProducts(): void {
-    if (this.searchText.trim() === '') {
-      this.filteredProducts = [...this.products]; 
-    } else {
-      this.filteredProducts = this.products.filter(product => {
-        return this.fuzzyMatch(product, this.searchText.toLowerCase());
-      });
-    }
-    console.log(this.filteredProducts)
-  }
-
-
-
-  fuzzyMatch(product: ProductData, searchText: string): boolean {
-    const productName = product?.ProductName?.toLowerCase(); 
-    return productName ? productName.includes(searchText) : false;
-  }
+  
   
 }

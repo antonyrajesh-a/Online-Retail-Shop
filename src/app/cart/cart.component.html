@@ -1,18 +1,18 @@
-<div style="text-align: center;align-items: center;;display: flex;flex-direction: column;">
-  <div *ngIf="cart.length > 0; else emptyCart" class="cart-container">
+<div style="text-align: center;align-items: center;display: flex;flex-direction: column;">
+  <div *ngIf="cart.length > 0" class="cart-container">
     <h2>Cart</h2>
     <div *ngFor="let product of cart; let i = index" class="cart-item">
       {{ product.ProductName }} - Quantity: {{ product.Quantity }}
       <button (click)="removeFromCart(i)" class="remove-btn">Remove</button>
     </div>
+    
     <button (click)="placeOrderC()" class="place-order-btn">Place Order</button>
+    <p-toast position="bottom-right"></p-toast>
   </div>
+  <div *ngIf="cart.length<=0" style="color: rgb(62, 113, 8)">----Your Cart is Empty----</div>
+
   
+
 </div>
 
 
-<ng-template #emptyCart>
-  <div class="empty-cart-message">
-      <p>Your cart is empty.</p>
-  </div>
-</ng-template>

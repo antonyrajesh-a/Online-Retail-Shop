@@ -1,17 +1,19 @@
 <h1>Available List of Items</h1>
-<mat-progress-spinner *ngIf="isloading" mode="indeterminate" ></mat-progress-spinner>
 
+<div style="text-align: center;"><input type="text" [(ngModel)]="searchText" placeholder="Enter Product name">
+</div>
+<mat-progress-spinner *ngIf="isloading" mode="indeterminate"></mat-progress-spinner>
 <div class="product_container">
-  <div *ngFor="let product of products$ | async " >
+  <div *ngFor="let product of products$ | filterpipe:searchText">
     <div class="product_element" *ngIf="product.Quantity > 0">
-      {{ product.Quantity }} of {{ product.ProductName }}<button (click)="showForm(product)"> + </button>
+      {{ product.Quantity }} - {{ product.ProductName }}<br><br><button (click)="showForm(product)"> Add to cart
+      </button>
     </div>
   </div>
 </div>
+<p-toast position="bottom-right"></p-toast>
 
-
-<!-- Form to select quantity and add to cart -->
-<div class="popup-form" *ngIf="selectedProduct" >
+<div class="popup-form" *ngIf="selectedProduct">
   <form (ngSubmit)="addToCart(selectedProduct)">
     <h2>Order </h2>
     <div>
@@ -20,6 +22,7 @@
       <span *ngIf="selectedProduct">Max: {{ maxQuantity }}</span>
     </div>
     <button type="submit" [disabled]="quantity <= 0 || quantity > maxQuantity">Add to Cart</button>
+    <button type="button" (click)="closeForm()">Close</button>
+
   </form>
 </div>
-
